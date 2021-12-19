@@ -1,0 +1,25 @@
+# Ant
+# Build your Java projects and run tests with Apache Ant.
+# Add steps that save build artifacts and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/java
+
+trigger:
+- UAT
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: Ant@1
+  inputs:
+    workingDirectory: ''
+    buildFile: './build/sample_build.xml'
+    options : -Dsalesforce.password=$(salesforce.password) -Dsalesforce.username=$(salesforce.username) -Dsalesforce.loginurl=$(salesforce.loginurl) -Dsalesforce.testLevel=$(salesforce.testLevel)
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '1.11'
+    jdkArchitectureOption: 'x64'
+    publishJUnitResults: false
+    testResultsFiles: '**/TEST-*.xml'
+- script: 
+    echo $(sf.username)
+    echo $(sf.password)
